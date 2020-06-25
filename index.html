@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin:auto;
+  margin-top:100px;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+<div><label for="myfile">Select IMG 1:</label>
+    <input type="file" id="myfile" name="myfile">
+    <button >Upload Image 1</button></div>
+    <div><label for="myfile">Select IMG 2:</label>
+        <input type="file" id="myfile" name="myfile">
+        <button onclick="myFunction()">Upload Image 2</button></div>
+    
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("myDIV");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+        setTimeout(function() 
+            {document.getElementById('myDIV').style.display='none'}, 10000);
+        
+      } else {
+        x.style.display = "none";
+      }
+      
+    }
+    </script>
+    <div id="myDIV" class="loader" style="display:none;"></div>
+</body>
+</html>
