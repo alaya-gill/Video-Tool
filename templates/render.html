@@ -1,0 +1,156 @@
+<html lang="pt-BR">
+<head>
+<style>
+    .red-square {
+  
+  height: 300px;
+  position: absolute;
+  top: 10%;
+  
+}
+
+::selection {
+  background: yellow;
+}
+
+textarea:focus { 
+    outline: none !important;
+    border:none;
+}
+
+
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script type=text/javascript >
+// Get the word of a string given the string and index
+var utterance=new SpeechSynthesisUtterance();
+var currentIndex=0;
+var count =0
+var index=0
+var l=""
+var newHTML=""
+var synth=window.speechSynthesis
+var reading = false;
+var timer = false;
+utterance.lang = "pt-BR";
+utterance.rate=1
+
+window.onload=function(){
+    var newHTML=document.getElementById('textarea').innerHTML;
+    var text = document.getElementById('textarea').value;
+  document.getElementById('playButton').onclick = function(){
+    l=text.split(" ")
+    //utterance.onboundary = onboundaryHandler;
+    
+    utterance.text = text;
+    console.log(utterance.lang);
+    synth.speak(utterance);
+    console.log("alaya")
+    
+    
+  
+};
+
+//setTimeout(function(){ hi(); }, 3000);
+
+
+document.getElementById('pauseButton').onclick = function(){
+    if (speechSynthesis) {
+      speechSynthesis.pause();
+    }
+};
+
+document.getElementById('resumeButton').onclick = function(){
+    if (speechSynthesis) {
+      speechSynthesis.resume();
+    }
+};
+
+document.getElementById('stopButton').onclick = function(){
+    if (speechSynthesis) {
+      speechSynthesis.cancel();
+    }
+};
+//setTimeout(function(){ hi(); }, 3000);
+/*$(document).ready(function(){
+  $('#playButton').click();
+}); */
+
+}
+
+
+Array.prototype.myJoin = function(seperator,start,end){
+    if (start==0  && end==0){return this[0];}
+    if(!start) start = 0;
+    if(!end) end = this.length - 1;
+    end++;
+    return this.slice(start,end).join(seperator);
+};
+
+
+function onboundaryHandler(event){
+    var textarea = document.getElementById('textarea');
+    console.log("1!")
+  var value = textarea.value;
+  console.log("2!")
+    var index = event.charIndex;
+    console.log("3!")
+    var word = getWordAt(value, index);
+    console.log("4!")
+    var anchorPosition = getWordStart(value, index);
+    console.log("5!")
+    var activePosition = anchorPosition + word.length;
+    console.log("6!")
+    
+    textarea.focus();
+    
+    if (textarea.setSelectionRange) {
+       textarea.setSelectionRange(anchorPosition, activePosition);
+   
+        
+    }
+};
+
+// Get the word of a string given the string and index
+function getWordAt(str, pos) {
+    // Perform type conversions.
+    str = String(str);
+    pos = Number(pos) >>> 0;
+
+    // Search for the word's beginning and end.
+    var left = str.slice(0, pos + 1).search(/\S+$/),
+        right = str.slice(pos).search(/\s/);
+    console.log(left, right);
+    // The last word in the string is a special case.
+    if (right < 0) {
+        return str.slice(left);
+    }
+    
+    // Return the word, using the located bounds to extract it from the string.
+    return str.slice(left, right + pos);
+}
+
+// Get the position of the beginning of the word
+function getWordStart(str, pos) {
+    str = String(str);
+    pos = Number(pos) >>> 0;
+
+    // Search for the word's beginning
+    var start = str.slice(0, pos + 1).search(/\S+$/);
+    console.log(start);
+    return start;
+}
+</script>
+
+</head>
+<body >
+     
+<textarea id="textarea" style="padding-left: 200px;padding-top:30px;width: 1200px;height:800px;padding-right:50px;border: none;font-size: 30;color: blue" class="red-square" contenteditable="true">Parágrafo único. A República Federativa do Brasil buscará a integração econômica, política, social e cultural dos povos da América Latina, visando à formação de uma comunidade latino-americana de nações.</textarea>
+
+  
+    <input type="button" id="playButton" value="Play" />
+        <input type="button" id="pauseButton" value="Pause"/>
+        <input type="button" id="resumeButton" value="Resume"/>
+        <input type="button" id="stopButton" value="Stop"/>  
+  </body>
+  </html>
